@@ -110,6 +110,28 @@ jede Wahrscheinlichkeit als eigene Zeile und eignet sich für Heatmaps in Power 
 
 Die Soll-Labels sind eine Setzung, keine Wahrheit. Gerade die Grenzfälle eignen sich zur Diskussion, ob das Label oder Jev danebenliegt.
 
+## Evaluation und Vergleichsmodelle
+
+Abschnitt 14 des Notebooks misst jedes Urteil mit Accuracy, Precision, Recall und F1 und zeigt
+Konfusionsmatrizen (`velocity_jev/evaluation.py`). Abschnitt 15 vergleicht Jev mit einem Encoder aus der
+BERT-Familie, der über Natural Language Inference ohne Training urteilt (`velocity_jev/encoder.py`,
+Modell `MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7`, 279 Mio. Parameter). Abschnitt 16
+vergleicht mit einem klassischen Klassifikator, TF-IDF und logistischer Regression
+(`velocity_jev/klassisch.py`), trainiert auf den 48 Meldungen und geprüft auf dem Holdout. Alle Modelle
+liefern Urteile in derselben Form (`velocity_jev/rohwerte.py`), und derselbe Code aus `regeln.py`
+entscheidet mit denselben Schwellen.
+
+| Holdout, 18 Meldungen | Jev (Stand 1) | Encoder (NLI) | TF-IDF + LR |
+| --- | --- | --- | --- |
+| Entscheidung richtig | 67 % | 39 % | 6 % |
+| automatisch entschieden | 61 % | 39 % | 0 % |
+| Sicherheitsschäden übersehen | 0 | 0 | 0 |
+| Kosten nach Annahmen | 56 € | 108 € | 144 € |
+
+Die Wahrscheinlichkeiten des Encoders liegen in `daten/cache/encoder_nli.csv`. Wer sie neu rechnet
+(`ENCODER_NEU_RECHNEN = True` im Notebook), braucht `torch` und `transformers`; beide stehen bewusst nicht
+in `requirements.txt`, weil das Modell rund 1,1 GB groß ist.
+
 ## Anbindung an die Warenwirtschaft
 
 Die Ergebnisse erscheinen in der VeloCity-Warenwirtschaft ([wawi.butscher.cloud](https://wawi.butscher.cloud)) unter **Instandhaltung → Meldungseingang**. Der Weg:
@@ -167,7 +189,7 @@ python -m pytest
 CLAUDE.md                   Kontext, Regeln und Arbeitsplan für Claude Code
 docs/iterationen.md         Protokoll der Frage-Iterationen
 daten/meldungen.csv         48 Meldungen mit Soll-Labels
-daten/cache/                Antworten von Jev (entsteht beim ersten Lauf)
+daten/cache/                Antworten von Jev und des Encoder-Modells
 VeloCity_Jev.ipynb          Notebook für Deepnote oder Jupyter
 docs/fehleranalyse_stand0.csv  Ursache je Fehlentscheidung des Ausgangsstands
 daten/holdout.csv           18 Meldungen für den Holdout
@@ -176,6 +198,10 @@ velocity_jev/pipeline.py    Request an Jev, Cache, Urteil
 velocity_jev/regeln.py      Schwellen und Entscheidung
 velocity_jev/ablauf.py      einen Datensatz beurteilen (Skript und Notebook)
 velocity_jev/auswertung.py  Kennzahlen, Gruppierung, Schwellen
+velocity_jev/evaluation.py  Accuracy, Precision, Recall, F1, Konfusionsmatrizen, Modellvergleich
+velocity_jev/rohwerte.py    Urteile aus den Wahrscheinlichkeiten eines Vergleichsmodells
+velocity_jev/encoder.py     Vergleichsmodell: Encoder (BERT-Familie) mit Zero-Shot über NLI
+velocity_jev/klassisch.py   Vergleichsmodell: TF-IDF und logistische Regression
 velocity_jev/protokoll.py   Ablage der Läufe
 velocity_jev/datenbank.py   Läufe nach PostgreSQL/Supabase schreiben und freigeben
 folien/                     Foliensatz (PPTX, PDF), Bauskript und Bildschirmfotos der WaWi
