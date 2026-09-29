@@ -1,0 +1,25 @@
+fragen_stand,meldung_id,merkmal,art,soll_entscheidung,entscheidung,betroffene_frage,ursache,begruendung
+0,M002,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,frage_unklar,"Klingel defekt; »kann … führen« ohne criteria wörtlich fast immer wahr (0,54)"
+0,M004,Grenzfall Sicherheit,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,label_strittig,"Flackerndes Vorderlicht nachts; 0,66 ist echte Unsicherheit, Prüfung angemessen"
+0,M005,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,frage_unklar,"Sattel unbequem gilt als Unfallrisiko (0,61); Schwere zusätzlich unsicher (0,45/0,54)"
+0,M010,Verneinung: Bremse in Ordnung,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,label_strittig,Rücklicht komplett aus ist nachts ein Unfallrisiko; die Verneinung zur Bremse hat Jev korrekt verarbeitet
+0,M013,keine passende Kategorie,unnötige Prüfung,auftrag,pruefen,entscheidung,codefehler,"regeln.py schickt keine_zuordnung immer in die Prüfung, soll_entscheidung erwartet auftrag"
+0,M016,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,frage_unklar,"Knackendes Pedal als Unfallrisiko (0,62)"
+0,M017,Schaden oder App-Problem?,automatisch falsch,auftrag,kein_schaden_weiterleiten,ist_schadensmeldung,label_strittig,Schloss oder App? criteria »false« nennt ausdrücklich App; Schwere wörtlich »Weiterfahren unmöglich«
+0,M021,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,frage_unklar,"Schaltung hakt als Unfallrisiko (0,73)"
+0,M022,Kategorie Rahmen ohne Gefahr,automatisch falsch,auftrag,kein_schaden_weiterleiten,ist_schadensmeldung,frage_unklar,"instructions »technischer Mangel« widerspricht criteria »beschädigt«; Kratzer rein optisch (0,45)"
+0,M023,Grenzfall Sicherheit,automatisch falsch,auftrag,sperren,sicherheitsrelevant,label_strittig,"Blendendes Vorderlicht gefährdet andere; Jev (0,83) ist vertretbar"
+0,M024,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,frage_unklar,"Langsamer Luftverlust als Unfallrisiko (0,76)"
+0,M026,keine passende Kategorie,automatisch falsch,auftrag,sperren,sicherheitsrelevant,frage_unklar,"Krummer Ständer betrifft das Weiterfahren nicht (0,86); bei keine_zuordnung ohnehin Prüfung"
+0,M027,Grenzfall Sicherheit,"Entscheidung richtig, Urteil falsch",sperren,sperren,schwere,codefehler,"Stufe per argmax (0,43 fahruntauglich) statt gerundetem Erwartungswert 1,25 = mittel; Entscheidung trotzdem richtig"
+0,M028,Zahl im Text,automatisch falsch,auftrag,sperren,sicherheitsrelevant,frage_unklar,"Reichweite des Akkus als Unfallrisiko (0,80); die Zahl im Text hat nicht gestört"
+0,M030,Grenzfall Sicherheit,automatisch falsch,auftrag,sperren,sicherheitsrelevant,label_strittig,"Ruckartig aussetzender Motor im Verkehr; Jev (0,86) ist vertretbar"
+0,M031,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,frage_unklar,"Schleifgeräusch bei normaler Unterstützung (0,52); Schwere unsicher"
+0,M032,Grenzfall Sicherheit,automatisch falsch,auftrag,sperren,sicherheitsrelevant,label_strittig,"Heiße, schleifende Scheibenbremse (Fading); Jev (0,86) ist vertretbar"
+0,M033,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,frage_unklar,"Motor aus, normales Treten möglich (0,40, genau auf der Prüfschwelle)"
+0,M038,Verneinung: fast,automatisch falsch,auftrag,sperren,sicherheitsrelevant,frage_unklar,"Klappe der Ladebox als Unfallrisiko (0,85); »fast« wurde als drohender Sturz gelesen"
+0,M040,Grenzfall Sicherheit,"Entscheidung richtig, Urteil falsch",sperren,sperren,schwere,label_strittig,"Label widerspricht sich: sicherheitsrelevant=1, aber Schwere mittel, deren Kriterium »keine Sturzgefahr« verlangt"
+0,M041,keine passende Kategorie,unnötige Prüfung,auftrag,pruefen,entscheidung,codefehler,"keine_zuordnung führt immer zur Prüfung, soll_entscheidung erwartet auftrag"
+0,M044,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,label_strittig,Fehlender Pedalreflektor ist Pflichtausstattung und betrifft die Sichtbarkeit; auch Schwere mittel vertretbar
+0,M045,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,jev_grenze,"»Licht geht aber« nicht berücksichtigt (0,77); Schwere schwankt zwischen gering und mittel"
+0,M047,eindeutig,unnötige Prüfung,auftrag,pruefen,sicherheitsrelevant,frage_unklar,"Trockene, rostige Kette als Unfallrisiko (0,67)"

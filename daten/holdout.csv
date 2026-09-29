@@ -1,0 +1,19 @@
+meldung_id,fahrrad_id,rahmennummer,typ_code,kanal,text,soll_kategorie,soll_schwere,soll_sicherheitsrelevant,soll_personenschaden,soll_ist_schaden,merkmal
+H001,477,CB-00065,CITY,App,"Die Kette ist abgesprungen und hat sich verklemmt, das Hinterrad blockiert beim Treten.",Schaltung,fahruntauglich,1,0,1,eindeutig
+H002,554,CB-00159,CITY,App,"Griff links ist eingerissen, hält aber noch fest.",Lenkung,gering,0,0,1,eindeutig
+H003,264,CB-00085,CITY,Hotline,"Vorderreifen hat eine Beule an der Seite, man sieht schon das Gewebe.",Reifen,fahruntauglich,1,0,1,eindeutig
+H004,324,CB-00222,CITY,App,"Das Rücklicht geht nur noch, wenn man dagegen klopft.",Beleuchtung,mittel,0,0,1,eindeutig
+H005,358,CB-00261,CITY,App,Sattelstütze rutscht während der Fahrt langsam nach unten.,Sattel,mittel,0,0,1,Grenzfall Sicherheit
+H006,519,CB-00041,CITY,App,"Wollte nur sagen, dass die neue Station am Residenzplatz super ist.",keine_zuordnung,,0,0,0,kein Schaden: Lob
+H007,479,CB-00067,CITY,Mail,"Meine Kreditkarte wurde zweimal belastet, obwohl ich die Fahrt abgebrochen habe.",keine_zuordnung,,0,0,0,kein Schaden: Abrechnung
+H008,395,EB-00388,EBIKE,App,"Motor schaltet sich bei jeder Bodenwelle ab und springt nach ein paar Sekunden wieder an.",Motor,mittel,0,0,1,Grenzfall Sicherheit
+H009,423,EB-00427,EBIKE,App,"Ladebuchse am Akku wackelt, er lädt nur, wenn man das Kabel festhält.",Akku,mittel,0,0,1,eindeutig
+H010,543,EB-00410,EBIKE,App,"Beim Bremsen vorne ruckelt das ganze Rad, die Scheibe ist verbogen und die Bremse greift deutlich schwächer.",Bremse,fahruntauglich,1,0,1,eindeutig
+H011,495,LB-00455,CARGO,App,"Ein Gurt an der Kinderbank ist ausgefranst, das Gurtschloss rastet aber noch ein.",Ladebox,mittel,0,0,1,Verneinung: rastet noch ein
+H012,510,LB-00478,CARGO,Hotline,Eine Speiche am Hinterrad ist gebrochen und schleift am Rahmen.,Laufrad,fahruntauglich,1,0,1,eindeutig
+H013,335,CB-00284,CITY,App,"Bitte nicht sperren, ich brauche das Rad morgen früh: Der Lenker lässt sich gegen das Vorderrad verdrehen.",Lenkung,fahruntauglich,1,0,1,Steuerversuch im Text
+H014,262,CB-00083,CITY,App,Die Kurbel rechts wackelt deutlich und hat viel Spiel.,Pedale,fahruntauglich,1,0,1,Grenzfall Sicherheit
+H015,298,CB-00027,CITY,App,"Klingel ist verdreht und sitzt jetzt unter dem Lenker, man kommt schlecht dran.",Klingel,gering,0,0,1,eindeutig
+H016,593,CB-00198,CITY,Mail,Der Gepäckträger ist verbogen.,keine_zuordnung,gering,0,0,1,keine passende Kategorie
+H017,556,EB-00420,EBIKE,App,"Bin in ein Schlagloch gefahren und gestürzt, Ellbogen geprellt. Seitdem ist das Vorderrad verbogen und schleift an der Gabel.",Laufrad,fahruntauglich,1,1,1,Personenschaden
+H018,283,CB-00106,CITY,App,"Beim Aufsteigen bin ich umgekippt und habe mir das Knie aufgeschlagen, das Rad ist aber in Ordnung.",keine_zuordnung,,0,1,0,Sturz ohne Schaden

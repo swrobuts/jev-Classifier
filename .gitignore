@@ -1,0 +1,11 @@
+.env
+__pycache__/
+.pytest_cache/
+.venv/
+ergebnisse/*
+!ergebnisse/.gitkeep
+# Foliensatz bleibt lokal, er gehört nicht ins Repository
+folien/
+# abgeleitete Pakete und Systemdateien
+*.zip
+.DS_Store
