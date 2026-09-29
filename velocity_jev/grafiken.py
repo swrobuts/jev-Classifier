@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib import font_manager
 
 from .auswertung import noul_basis
 
@@ -17,7 +18,16 @@ GRAU = "#9A9A9A"
 HELLGRAU = "#D9D9D9"
 ROT = "#A32638"
 TEXT = "#404040"
-plt.rcParams.update({"font.family": ["Helvetica Neue", "Helvetica", "Arial", "DejaVu Sans"],
+SCHRIFTEN = ["Helvetica Neue", "Helvetica", "Arial", "Liberation Sans", "DejaVu Sans"]
+
+
+def vorhandene_schriften(wunsch: list[str]) -> list[str]:
+    """Nur installierte Schriften; eine fehlende Schrift meldet Matplotlib sonst bei jeder Grafik."""
+    installiert = {schrift.name for schrift in font_manager.fontManager.ttflist}
+    return [name for name in wunsch if name in installiert] or ["DejaVu Sans"]
+
+
+plt.rcParams.update({"font.family": vorhandene_schriften(SCHRIFTEN),
                      "font.size": 11, "text.color": TEXT, "axes.labelcolor": TEXT,
                      "xtick.color": TEXT, "ytick.color": TEXT})
 
