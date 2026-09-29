@@ -117,20 +117,29 @@ Konfusionsmatrizen (`velocity_jev/evaluation.py`). Abschnitt 15 vergleicht Jev m
 BERT-Familie, der über Natural Language Inference ohne Training urteilt (`velocity_jev/encoder.py`,
 Modell `MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7`, 279 Mio. Parameter). Abschnitt 16
 vergleicht mit einem klassischen Klassifikator, TF-IDF und logistischer Regression
-(`velocity_jev/klassisch.py`), trainiert auf den 48 Meldungen und geprüft auf dem Holdout. Alle Modelle
-liefern Urteile in derselben Form (`velocity_jev/rohwerte.py`), und derselbe Code aus `regeln.py`
-entscheidet mit denselben Schwellen.
+(`velocity_jev/klassisch.py`), trainiert auf den 48 Meldungen und geprüft auf dem Holdout. Abschnitt 17
+vergleicht mit einem generativen LLM, `gpt-5.4-mini` von OpenAI (Fassung vom 17.03.2026), das dieselben
+Fragen per Prompt bekommt und über ein JSON-Schema antwortet (`velocity_jev/llm.py`). Alle Modelle liefern
+Urteile in derselben Form (`velocity_jev/rohwerte.py`), und derselbe Code aus `regeln.py` entscheidet mit
+denselben Schwellen.
 
-| Holdout, 18 Meldungen | Jev (Stand 1) | Encoder (NLI) | TF-IDF + LR |
-| --- | --- | --- | --- |
-| Entscheidung richtig | 67 % | 39 % | 6 % |
-| automatisch entschieden | 61 % | 39 % | 0 % |
-| Sicherheitsschäden übersehen | 0 | 0 | 0 |
-| Kosten nach Annahmen | 56 € | 108 € | 144 € |
+| Holdout, 18 Meldungen | Jev (Stand 1) | Encoder (NLI) | TF-IDF + LR | LLM |
+| --- | --- | --- | --- | --- |
+| Entscheidung richtig | 67 % | 39 % | 6 % | 78 % |
+| automatisch entschieden | 61 % | 39 % | 0 % | 78 % |
+| Sicherheitsschäden übersehen | 0 | 0 | 0 | 1 |
+| Fehlerkosten nach Annahmen | 56 € | 108 € | 144 € | 532 € |
 
-Die Wahrscheinlichkeiten des Encoders liegen in `daten/cache/encoder_nli.csv`. Wer sie neu rechnet
-(`ENCODER_NEU_RECHNEN = True` im Notebook), braucht `torch` und `transformers`; beide stehen bewusst nicht
-in `requirements.txt`, weil das Modell rund 1,1 GB groß ist.
+Die Fehlerkosten bewerten jede Entscheidung nach den Annahmen in `velocity_jev/auswertung.py`: ein
+übersehener Sicherheitsschaden 500 €, eine unnötige Sperre 20 € (entgangene Fahrten, Werkstattgang ohne
+Befund), jede Prüfung durch einen Menschen 8 €, jede sonstige Fehlentscheidung 30 €. Die Kosten der
+Anfragen selbst sind nicht enthalten: 66 Meldungen kosteten bei Jev rund 0,004 US-Dollar, beim LLM 0,11.
+
+Die Wahrscheinlichkeiten des Encoders liegen in `daten/cache/encoder_nli.csv`, die Antworten des LLM in
+`daten/cache/llm_openai.csv`. Wer neu rechnet (`ENCODER_NEU_RECHNEN` oder `LLM_NEU_FRAGEN` im Notebook),
+braucht `torch` und `transformers` beziehungsweise `openai` und die Umgebungsvariable `OPENAI_API_KEY`;
+das Notebook installiert die Pakete dann nach. In `requirements.txt` stehen sie nicht, weil das
+Encoder-Modell rund 1,1 GB groß ist und der LLM-Vergleich ohne Neuberechnung keinen Key braucht.
 
 ## Anbindung an die Warenwirtschaft
 
@@ -189,7 +198,7 @@ python -m pytest
 CLAUDE.md                   Kontext, Regeln und Arbeitsplan für Claude Code
 docs/iterationen.md         Protokoll der Frage-Iterationen
 daten/meldungen.csv         48 Meldungen mit Soll-Labels
-daten/cache/                Antworten von Jev und des Encoder-Modells
+daten/cache/                Antworten von Jev, des Encoder-Modells und des LLM
 VeloCity_Jev.ipynb          Notebook für Deepnote oder Jupyter
 docs/fehleranalyse_stand0.csv  Ursache je Fehlentscheidung des Ausgangsstands
 daten/holdout.csv           18 Meldungen für den Holdout
@@ -202,6 +211,7 @@ velocity_jev/evaluation.py  Accuracy, Precision, Recall, F1, Konfusionsmatrizen,
 velocity_jev/rohwerte.py    Urteile aus den Wahrscheinlichkeiten eines Vergleichsmodells
 velocity_jev/encoder.py     Vergleichsmodell: Encoder (BERT-Familie) mit Zero-Shot über NLI
 velocity_jev/klassisch.py   Vergleichsmodell: TF-IDF und logistische Regression
+velocity_jev/llm.py         Vergleichsmodell: generatives LLM mit Prompt und JSON-Schema
 velocity_jev/protokoll.py   Ablage der Läufe
 velocity_jev/datenbank.py   Läufe nach PostgreSQL/Supabase schreiben und freigeben
 folien/                     Foliensatz (PPTX, PDF), Bauskript und Bildschirmfotos der WaWi
