@@ -1,0 +1,20 @@
+flowchart LR
+    classDef daten fill:#FFFFFF,stroke:#C9C3B4,stroke-width:1px,color:#404040
+    classDef schritt fill:#F7F5EF,stroke:#003E6E,stroke-width:1px,color:#0B1F44
+    classDef tor fill:#003E6E,stroke:#003E6E,color:#FFFFFF
+    classDef tresor fill:#E3DED1,stroke:#003E6E,stroke-width:2px,color:#0B1F44
+
+    subgraph E["Entwicklung: an diesen Meldungen wird verbessert"]
+        direction TB
+        D48[("48 Meldungen<br/>daten/meldungen.csv")]:::daten
+        F["Fragen an Jev, Hypothesen,<br/>Prompt oder Training"]:::schritt
+        L["Lauf und Kennzahlen<br/>auf den 48 Meldungen"]:::schritt
+        D48 --> F --> L
+        L -->|"Fehler gefunden:<br/>neuer Stand"| F
+    end
+
+    L -->|"bester Stand gewählt"| S["Stand einfrieren<br/>ab hier keine Änderung"]:::tor
+    H[("18 Holdout-Meldungen<br/>daten/holdout.csv<br/>vor der ersten Iteration<br/>geschrieben und gelabelt")]:::tresor
+    S --> T["Ein einziger Lauf<br/>auf dem Holdout"]:::tor
+    H -.->|"erst jetzt geöffnet"| T
+    T --> B["Kennzahlen auf Meldungen,<br/>die beim Verbessern<br/>niemand gesehen hat"]:::schritt

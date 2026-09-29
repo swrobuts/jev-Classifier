@@ -22,6 +22,8 @@ from .rohwerte import praemisse, urteile_aus_rohwerten
 
 MODELL_NLI = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
 CACHE_NLI = Path(__file__).resolve().parent.parent / "daten" / "cache" / "encoder_nli.csv"
+# Gemessen am 29.09.2026 auf einem Mac, nur CPU: 66 Meldungen samt Laden des Modells
+LAUFZEIT_SEKUNDEN = 163
 
 # Je Ja/Nein-Frage eine Hypothese für "ja" und eine für "nein", wie die criteria der Fragen an Jev.
 # Mit nur einer Hypothese wählt die Pipeline zwischen "folgt" und "widerspricht"; "neutral" fällt

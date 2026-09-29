@@ -1,0 +1,17 @@
+flowchart LR
+    classDef daten fill:#FFFFFF,stroke:#C9C3B4,stroke-width:1px,color:#404040
+    classDef schritt fill:#F7F5EF,stroke:#003E6E,stroke-width:1px,color:#0B1F44
+    classDef jev fill:#003E6E,stroke:#003E6E,color:#FFFFFF
+    classDef mensch fill:#E3DED1,stroke:#003E6E,stroke-width:2px,color:#0B1F44
+
+    M["Meldung"]:::daten
+    J["Jev beurteilt alle Meldungen<br/>regeln.py entscheidet"]:::jev
+    L["LLM beurteilt dieselbe Meldung<br/>regeln.py entscheidet"]:::schritt
+    W["Vorschlag im Meldungseingang<br/>der Warenwirtschaft"]:::schritt
+    P["Ein Mensch prüft<br/>und entscheidet"]:::mensch
+
+    M --> J
+    J -->|"prüfen"| P
+    J -->|"automatische Entscheidung"| L
+    L -->|"gleiche Entscheidung"| W
+    L -->|"andere Entscheidung"| P

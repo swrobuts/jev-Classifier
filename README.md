@@ -135,6 +135,14 @@ Die Fehlerkosten bewerten jede Entscheidung nach den Annahmen in `velocity_jev/a
 Befund), jede Prüfung durch einen Menschen 8 €, jede sonstige Fehlentscheidung 30 €. Die Kosten der
 Anfragen selbst sind nicht enthalten: 66 Meldungen kosteten bei Jev rund 0,004 US-Dollar, beim LLM 0,11.
 
+Abschnitt 18 kombiniert Jev und das LLM und rechnet die tatsächlichen Kosten der Dienste aus. Mit der Regel
+"Einigkeit, sonst Prüfung" (automatisch nur, wenn beide gleich entscheiden) gab es auf beiden Datensätzen keine
+falsche automatische Entscheidung; die Fehlerkosten sanken auf den 48 Meldungen von 148 € auf 120 €. Für
+10 000 Meldungen kosten die Anfragen bei Jev rund 0,60 US-Dollar, beim LLM rund 17,40, in der Kombination
+rund 13. Diagramme für das Holdout-Prinzip, den Aufbau und die Strategie liegen als Mermaid-Quellen in
+`docs/diagramme/` und als Bilder in `docs/bilder/` (gerendert mit mermaid-cli und dem THWS-Farbschema aus
+`velocity-fallstudie/tools/mermaid-thws.json`).
+
 Die Wahrscheinlichkeiten des Encoders liegen in `daten/cache/encoder_nli.csv`, die Antworten des LLM in
 `daten/cache/llm_openai.csv`. Wer neu rechnet (`ENCODER_NEU_RECHNEN` oder `LLM_NEU_FRAGEN` im Notebook),
 braucht `torch` und `transformers` beziehungsweise `openai` und die Umgebungsvariable `OPENAI_API_KEY`;
@@ -212,6 +220,9 @@ velocity_jev/rohwerte.py    Urteile aus den Wahrscheinlichkeiten eines Vergleich
 velocity_jev/encoder.py     Vergleichsmodell: Encoder (BERT-Familie) mit Zero-Shot über NLI
 velocity_jev/klassisch.py   Vergleichsmodell: TF-IDF und logistische Regression
 velocity_jev/llm.py         Vergleichsmodell: generatives LLM mit Prompt und JSON-Schema
+velocity_jev/kombination.py Strategien aus Jev und LLM, Kosten der Anfragen
+velocity_jev/grafiken.py    Diagramme für das Notebook
+docs/diagramme/, docs/bilder/  Mermaid-Quellen und gerenderte Diagramme
 velocity_jev/protokoll.py   Ablage der Läufe
 velocity_jev/datenbank.py   Läufe nach PostgreSQL/Supabase schreiben und freigeben
 folien/                     Foliensatz (PPTX, PDF), Bauskript und Bildschirmfotos der WaWi

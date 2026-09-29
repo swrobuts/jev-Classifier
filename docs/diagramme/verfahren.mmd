@@ -1,0 +1,22 @@
+flowchart LR
+    classDef daten fill:#FFFFFF,stroke:#C9C3B4,stroke-width:1px,color:#404040
+    classDef modell fill:#F7F5EF,stroke:#003E6E,stroke-width:1px,color:#0B1F44
+    classDef jev fill:#003E6E,stroke:#003E6E,color:#FFFFFF
+    classDef tor fill:#E3DED1,stroke:#003E6E,stroke-width:2px,color:#0B1F44
+
+    M["Meldung<br/>Text und Radtyp"]:::daten
+    J["Jev, System One<br/>fünf typisierte Fragen<br/>in einem Request"]:::jev
+    N["Encoder, BERT-Familie<br/>Hypothesen über NLI<br/>ohne Training"]:::modell
+    T["TF-IDF und logistische<br/>Regression, trainiert<br/>auf 48 Meldungen"]:::modell
+    G["LLM gpt-5.4-mini<br/>Prompt und<br/>JSON-Schema"]:::modell
+    U["Urteile in gleicher Form<br/>drei Wahrscheinlichkeiten,<br/>zwei Verteilungen"]:::tor
+    R["regeln.py<br/>dieselben Schwellen<br/>für alle Verfahren"]:::jev
+    S1["sperren"]:::daten
+    S2["prüfen"]:::daten
+    S3["Wartungsauftrag"]:::daten
+    S4["kein Schaden"]:::daten
+
+    M --> J & N & T & G
+    J & N & T & G --> U
+    U --> R
+    R --> S1 & S2 & S3 & S4
