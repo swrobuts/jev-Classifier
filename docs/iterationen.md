@@ -35,6 +35,10 @@ sind eine Setzung von Claude nach den Konventionen der 48 Meldungen und noch nic
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 0 | 67 % | 89 % | 31 % | 0 | 5 | 1 | 116 € | 53 % / 0,297 | 23 495 Input, 4 291 Output |
 | 1 | 67 % | 61 % | 0 % | 0 | 0 | 6 | 56 € | 73 % / 0,140 | 25 817 Input, 4 291 Output |
+| 2 | 67 % | 61 % | 0 % | 0 | 0 | 6 | 56 € | 73 % / 0,144 | 26 411 Input, 4 291 Output |
+
+Stand 2 lief erst nach der Regeländerung unten (Regelversion `2026-09-29.2`, 18 neue Requests);
+für Stand 0 und 1 liefert diese Regel auf dem Holdout dieselben Entscheidungen wie vorher.
 
 Stand 1 ersetzt auch auf ungesehenen Meldungen falsche Sperren durch Prüfungen. Harmlose Mängel
 liegen dort aber noch bei 0,46 bis 0,63 und damit über der Prüfschwelle 0,4; H014 (Kurbel mit
@@ -61,11 +65,12 @@ M042 sind dadurch unnötige Prüfungen.
 
 Mit der Regel kostet Stand 2 auf den 48 Meldungen 124 € statt 148 € für Stand 1: Er erkennt M017 und
 M022 als Schaden, und M007 geht zur Prüfung, statt übersehen zu werden. Dafür sperrt er M017 unnötig
-und entscheidet seltener automatisch (73 % statt 77 %). Bester Stand bleibt vorerst 1, weil Stand 2
-auf dem Holdout noch nicht gelaufen ist.
+und entscheidet seltener automatisch (73 % statt 77 %). Auf dem Holdout entscheiden Stand 1 und
+Stand 2 bei allen 18 Meldungen gleich (je 56 €). Der Vorteil von Stand 2 beruht damit allein auf M017
+und M022 aus den 48 Meldungen, an denen iteriert wurde. Bester Stand bleibt 1, bis ein größerer
+Holdout einen Unterschied zeigt.
 
 ## Offen
 
-- Stand 2 mit der neuen Regel auf dem Holdout prüfen, bevor er Stand 1 ablöst (18 neue Requests,
-  rund 26 000 Input-Tokens).
+- Größerer Holdout, um zwischen Stand 1 und Stand 2 zu entscheiden.
 - Prüfschwelle 0,4 erst nach einem größeren Holdout neu festlegen.
