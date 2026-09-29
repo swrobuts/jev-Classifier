@@ -40,8 +40,32 @@ Stand 1 ersetzt auch auf ungesehenen Meldungen falsche Sperren durch Prüfungen.
 liegen dort aber noch bei 0,46 bis 0,63 und damit über der Prüfschwelle 0,4; H014 (Kurbel mit
 Spiel, Soll sperren) liegt bei 0,47 und geht zur Prüfung.
 
+## Regel statt Frage: sicherheitsrelevant geht vor „kein Schaden“ (29.09.2026)
+
+Hält Jev eine Meldung für keine Schadensmeldung (`ist_schadensmeldung` < 0,5), das Weiterfahren aber
+für gefährlich (`sicherheitsrelevant` ≥ 0,4, die Prüfschwelle), geht sie jetzt zur Prüfung statt an
+den Kundendienst. Die beiden Urteile widersprechen sich, und dann entscheidet ein Mensch. Regelversion
+`2026-09-29.2` in `velocity_jev/regeln.py`; Fragen, Labels und Schwellen sind unverändert. Alle Läufe
+wurden aus dem Cache neu ausgewertet: 0 neue Requests, 0 Tokens.
+
+| Stand | Datensatz | geänderte Entscheidung | richtig | automatisiert | Fehler darunter | übersehen | unnötig geprüft | Kosten |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | Meldungen | M017 (Soll `auftrag`), M036 und M042 (Soll `kein_schaden_weiterleiten`) gehen zur Prüfung | 58 → 54 % | 71 → 65 % | 24 → 23 % | 0 | 12 → 15 | 292 → 286 € |
+| 1 | Meldungen | keine | 79 % | 77 % | 5 % | 0 | 8 | 148 € |
+| 2 | Meldungen | M007 (Sturz mit verdrehtem Lenker, Soll `sperren`) geht zur Prüfung | 77 % | 75 → 73 % | 6 → 3 % | 1 → 0 | 9 → 10 | 616 → 124 € |
+| 0 und 1 | Holdout | keine | unverändert | | | | | 116 € / 56 € |
+
+Stand 1 und der in der Warenwirtschaft freigegebene Lauf ändern sich nicht. In Stand 0 greift die
+Regel dreimal, weil die alte Frage auch harmlose Meldungen für sicherheitsrelevant hielt; M036 und
+M042 sind dadurch unnötige Prüfungen.
+
+Mit der Regel kostet Stand 2 auf den 48 Meldungen 124 € statt 148 € für Stand 1: Er erkennt M017 und
+M022 als Schaden, und M007 geht zur Prüfung, statt übersehen zu werden. Dafür sperrt er M017 unnötig
+und entscheidet seltener automatisch (73 % statt 77 %). Bester Stand bleibt vorerst 1, weil Stand 2
+auf dem Holdout noch nicht gelaufen ist.
+
 ## Offen
 
-- Regel statt Frage: Eine Meldung mit hoher Sicherheitsrelevanz sollte nie als „kein Schaden“
-  weitergeleitet werden, sondern mindestens zur Prüfung gehen (hätte M007 in Stand 2 abgefangen).
+- Stand 2 mit der neuen Regel auf dem Holdout prüfen, bevor er Stand 1 ablöst (18 neue Requests,
+  rund 26 000 Input-Tokens).
 - Prüfschwelle 0,4 erst nach einem größeren Holdout neu festlegen.

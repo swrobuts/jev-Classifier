@@ -16,9 +16,22 @@ def test_klarer_kleinschaden_wird_auftrag():
     assert e.entscheidung == AUFTRAG and e.wawi_kategorie == "Klingel" and e.wawi_schwere == "gering"
 
 
-def test_kein_schaden_wird_weitergeleitet_auch_bei_hoher_sicherheit():
-    e = entscheiden(urteil(ist_schadensmeldung=0.1, sicherheitsrelevant=0.99))
+def test_kein_schaden_wird_weitergeleitet():
+    e = entscheiden(urteil(ist_schadensmeldung=0.1, sicherheitsrelevant=0.05))
     assert e.entscheidung == KEIN_SCHADEN and e.wawi_kategorie is None
+
+
+def test_kein_schaden_aber_sicherheitsrelevant_geht_zur_pruefung():
+    e = entscheiden(urteil(ist_schadensmeldung=0.45, sicherheitsrelevant=0.94, kategorie="Lenkung"))
+    assert e.entscheidung == PRUEFEN and e.wawi_kategorie == "Lenkung"
+
+
+def test_kein_schaden_ab_der_pruefschwelle():
+    s = Schwellen()
+    knapp_darunter = urteil(ist_schadensmeldung=0.1, sicherheitsrelevant=s.pruefen_ab - 0.01)
+    genau_dran = urteil(ist_schadensmeldung=0.1, sicherheitsrelevant=s.pruefen_ab)
+    assert entscheiden(knapp_darunter, s).entscheidung == KEIN_SCHADEN
+    assert entscheiden(genau_dran, s).entscheidung == PRUEFEN
 
 
 def test_hohe_sicherheitsrelevanz_sperrt():

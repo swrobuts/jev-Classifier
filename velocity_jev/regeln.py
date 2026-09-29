@@ -12,7 +12,7 @@ from dataclasses import asdict, dataclass
 from .fragen import KEINE_ZUORDNUNG
 from .pipeline import Urteil
 
-REGEL_VERSION = "2026-09-29"
+REGEL_VERSION = "2026-09-29.2"
 
 KEIN_SCHADEN = "kein_schaden_weiterleiten"  # an den Kundendienst, kein Werkstattvorgang
 SPERREN = "sperren"                       # Rad sofort sperren, Schaden als fahruntauglich melden
@@ -53,6 +53,13 @@ def entscheiden(u: Urteil, s: Schwellen = Schwellen()) -> Entscheidung:
         return Entscheidung(u.meldung_id, art, eskalation, grund, kategorie, schwere)
 
     if u.ist_schadensmeldung < s.ist_schaden_ab:
+        # Hält Jev das Weiterfahren für gefährlich, obwohl es keinen Schaden erkennt,
+        # widersprechen sich zwei Urteile. Dann entscheidet ein Mensch, statt die Meldung
+        # an den Kundendienst weiterzuleiten (Iteration 2: Sturz M007 bei 0,45).
+        if u.sicherheitsrelevant >= s.pruefen_ab:
+            return ergebnis(PRUEFEN, f"Schadensmeldung {u.ist_schadensmeldung:.2f} < {s.ist_schaden_ab}, aber "
+                                     f"sicherheitsrelevant {u.sicherheitsrelevant:.2f} ≥ {s.pruefen_ab}",
+                            u.schwere_stufe)
         return ergebnis(KEIN_SCHADEN, f"Schadensmeldung {u.ist_schadensmeldung:.2f} < {s.ist_schaden_ab}")
 
     if u.sicherheitsrelevant >= s.sperren_ab:
