@@ -9,7 +9,7 @@ Lehrprojekt für die Veranstaltung „Datenbasierte Fallstudien“ an der THWS B
 - Der Cache enthält 180 Antworten (48 Meldungen × Stand 0, 1, 2 und 18 Holdout-Meldungen × Stand 0, 1).
 - `VeloCity_Jev.ipynb` läuft in Deepnote und Jupyter, ohne Key nur aus dem Cache.
 - Schritt 8 ist erledigt: Die WaWi prüft Kategorien nicht gegen eine feste Liste (`schadensmeldung.kategorie` ist Freitext, siehe `velocity-fallstudie/db/aufbau/0015_bereich_i_instandhaltung.sql`).
-- WaWi-Anbindung live seit 29.09.2026: `velocity-fallstudie/db/aufbau/0026_jev_meldungseingang.sql` (Schema `jev_labor`, Rolle `jev_schreiber`, Sicht `v_wawi_meldungseingang`, zwei `api_`-Funktionen) und der Reiter „Meldungseingang“ in der Instandhaltung (Branch `feature/jev-meldungseingang`). Alle fünf Läufe liegen in `jev_labor`; freigegeben ist Lauf 14 (Meldungen, Stand 1).
+- WaWi-Anbindung live seit 29.09.2026: `velocity-fallstudie/db/aufbau/0026_jev_meldungseingang.sql` (Schema `jev_labor`, Rolle `jev_schreiber`, Sicht `v_wawi_meldungseingang`, zwei `api_`-Funktionen) und der Reiter „Meldungseingang“ in der Instandhaltung (in velocity-fallstudie nach `main` gemergt und gepusht, Commit 0b6cdde). Alle fünf Läufe liegen in `jev_labor`; freigegeben ist Lauf 14 (Meldungen, Stand 1).
 - `tests/attrappe.py` sagt nichts über Jev aus; Aussagen zur Qualität stammen aus den echten Läufen.
 - Foliensatz in `folien/` (40 Folien, erzeugt mit `folien/folien_bauen.py` und dem Skill thws-slides); die PDF
   exportiert PowerPoint per AppleScript direkt nach `folien/` (in diesen OneDrive-Ordner darf PowerPoint schreiben,
@@ -19,7 +19,7 @@ Lehrprojekt für die Veranstaltung „Datenbasierte Fallstudien“ an der THWS B
 ## Regeln
 
 - **API-Key:** steht nur in `.env` und wird nie ausgegeben, geloggt, committet oder in den Chat kopiert. Fehlt er, den Nutzer bitten, ihn selbst in die `.env` einzutragen.
-- **Git:** Der übergeordnete Ordner ist ein Git-Repository. `.env`, `.venv/` und `ergebnisse/` sind ausgeschlossen. Vor jedem Commit prüfen, dass kein Key in einer Datei steht.
+- **Git:** `jev/` ist ein eigenes Repository (github.com/swrobuts/jev-Classifier, privat). `.env`, `.venv/`, `ergebnisse/`, `folien/` und ZIP-Pakete sind ausgeschlossen; der Foliensatz gehört nicht nach GitHub. Vor jedem Commit prüfen, dass weder API-Key noch Datenbankpasswort in einer Datei stehen (`git grep --cached -F -e "<Wert>"`; das Passwort kann mit einem Bindestrich beginnen, deshalb `-e`).
 - **Virtuelle Umgebung außerhalb von OneDrive:** Der Projektordner liegt in OneDrive, dort würde eine `.venv` tausendfach synchronisiert. Deshalb `~/.virtualenvs/velocity-jev` verwenden.
 - **Modell:** fest `jev-1.13.0` (Variable `JEV_MODELL`), nicht `jev-latest`. Das Modell ist Teil des Cache-Schlüssels.
 - **Cache:** `daten/cache/jev_cache.jsonl` wird nie gelöscht. Er soll später an die Studierenden gehen. Jede Änderung am Wortlaut einer Frage erzeugt neue Requests und kostet Tokens. Nach jedem Lauf die Token-Summe nennen.
