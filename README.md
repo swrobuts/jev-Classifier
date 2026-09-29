@@ -30,9 +30,11 @@ Das Notebook `VeloCity_Jev.ipynb` bündelt Beurteilung, Kennzahlen, interaktive 
 Auswertung, Schwellen und den Vergleich der Fragen-Stände. Es läuft ohne API-Key, solange die Fragen
 nicht umformuliert werden, weil alle Antworten im Cache liegen.
 
-1. In Deepnote ein neues Projekt anlegen und im Bereich **Files** die ZIP-Datei des Projekts hochladen
-   sowie `VeloCity_Jev.ipynb` als Notebook importieren. Die erste Zelle entpackt die ZIP-Datei, falls der
-   Ordner `velocity_jev` noch fehlt.
+1. In Deepnote ein neues Projekt anlegen. In der rechten Seitenleiste unter **Files** über **+** die
+   ZIP-Datei mit **Upload file** hochladen und `VeloCity_Jev.ipynb` mit **Upload .ipynb file** als Notebook
+   importieren. Danach die Maschine (neu) starten: Erst dann liegt die ZIP-Datei im Arbeitsverzeichnis
+   `/datasets/_deepnote_work`. Die erste Zelle entpackt sie dort, falls der Ordner `velocity_jev` noch
+   fehlt; das dauert im Deepnote-Dateisystem einige Minuten.
 2. Liegt `requirements.txt` im Projektwurzelverzeichnis, installiert Deepnote die Pakete beim Start;
    sonst übernimmt das die erste Zelle. Nötig ist Python 3.10 oder neuer (Deepnote-Standard: 3.11).
 3. Für neue Anfragen an Jev: rechte Seitenleiste → **Integrations** → **Environment variables**,
